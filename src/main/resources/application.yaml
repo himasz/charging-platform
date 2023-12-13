@@ -1,0 +1,25 @@
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+server:
+  port: 9090
+
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: yourGmail
+    password: Generated App Passwords (google it if you do not know)
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+logging:
+  level:
+    root: ${ROOT_LOGGING_LEVEL:info}
+    com.statista.code.challenge: ${APP_LOG_LEVEL:debug}
