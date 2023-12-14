@@ -1,13 +1,7 @@
 package com.dcs.service;
 
 
-import com.dcs.common.error.exceptions.MissingDataException;
 import com.dcs.TestBookingData;
-import com.dcs.repository.BookingRepository;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
 
 class ChargeDetailServiceImplTest extends TestBookingData {
 

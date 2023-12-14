@@ -2,7 +2,7 @@ package com.dcs.controller;
 
 import com.dcs.common.dto.ChargeDetailDTO;
 import com.dcs.common.error.ApiError;
-import com.dcs.service.ChargeDetailService;
+import com.dcs.component.ChargeDetailService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -20,7 +20,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/charge/detail/v1")
 @RequiredArgsConstructor
-public class ChargeDetailControllerV1 implements IChargeDetailControllerV1 {
+public class ChargeDetailControllerV1 {
     private final ChargeDetailService chargeDetailService;
 
     @PutMapping("/create")

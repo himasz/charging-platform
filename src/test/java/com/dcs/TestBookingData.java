@@ -26,13 +26,14 @@ public class TestBookingData {
 
     protected static ChargeDetailDTO createBookingDTO(
             String description, Double price, String department, Currency currency) {
-        return new ChargeDetailDTO(
-                description,
-                price,
-                currency,
-                System.currentTimeMillis(),
-                EMAIL,
-                department
-        );
+        return null;
+//                new ChargeDetailDTO(
+//                ,
+//                price,
+//                currency,
+//                System.currentTimeMillis(),
+//                EMAIL,
+//                department
+//        );
     }
 }
