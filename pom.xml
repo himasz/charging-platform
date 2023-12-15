@@ -25,6 +25,7 @@
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <liquibase-core.version>4.25.0</liquibase-core.version>
         <mysql-connector-java.version>8.0.33</mysql-connector-java.version>
+        <spring.profiles.active>local,no-liquibase</spring.profiles.active>
     </properties>
 
     <dependencies>
@@ -71,9 +72,8 @@
             <version>${liquibase-core.version}</version>
         </dependency>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql-connector-java.version}</version>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
@@ -111,6 +111,11 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

@@ -1,0 +1,64 @@
+##spring:
+##  jpa:
+##    properties:
+##      hibernate:
+##        dialect: org.hibernate.dialect.PostgreSQLDialect
+##    hibernate:
+##      show-sql: true
+##    datasource:
+##      url: jdbc:postgresql://localhost:5432/charge
+##      username: postgres
+##      password: 123321
+##  liquibase:
+##    change-log: classpath:/liquibase/master.xml
+##    default-schema: ${database.name}
+##    password: ${spring.datasource.password}
+##    url: ${spring.datasource.url}?createDatabaseIfNotExist=true
+##    user: ${spring.datasource.username}
+##    h2:
+##      console:
+##        enabled: true
+##    datasource:
+##      hikari:
+##        ddl-auto: none
+#spring:
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/charges
+#    username: postgres
+#    password: 123321
+#  jpa:
+#    hibernate:
+#      ddl-auto: none
+#      naming:
+#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+#        format_sql: true
+#      javax:
+#        persistence:
+#          schema-generation:
+#            create-source: metadata
+#            scripts:
+#              create-target: create.sql
+#              drop-target: drop.sql
+#  liquibase:
+#    change-log: classpath:/liquibase/master.xml
+#    default-schema: charges
+#    password: ${spring.datasource.password}
+#    url: ${spring.datasource.url}?createDatabaseIfNotExist=true
+#    user: ${spring.datasource.username}
+#
+#springdoc:
+#  api-docs:
+#    path: /api-docs
+#  swagger-ui:
+#    path: /swagger-ui.html
+#server:
+#  port: 9090
+#
+#logging:
+#  level:
+#    root: ${ROOT_LOGGING_LEVEL:info}
+#    com.statista.code.challenge: ${APP_LOG_LEVEL:debug}

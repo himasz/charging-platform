@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Table(name = ApiConstants.CHARGE)
+@Table(name = ApiConstants.CHARGE_DETAIL)
 public class ChargeDetailEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,5 +20,4 @@ public class ChargeDetailEntity {
     private long startTime;
     private long endTime;
     private double price;
-
 }

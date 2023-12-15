@@ -1,8 +1,11 @@
 package com.dcs.controller;
 
 import com.dcs.common.dto.ChargeDetailDTO;
+import com.dcs.common.entity.ChargeDetailEntity;
 import com.dcs.common.error.ApiError;
 import com.dcs.component.ChargeDetailService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/charge/detail/v1")
@@ -23,7 +25,7 @@ import java.util.Set;
 public class ChargeDetailControllerV1 {
     private final ChargeDetailService chargeDetailService;
 
-    @PutMapping("/create")
+    @PostMapping("/create")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Create a booking")
     @ApiResponse(responseCode = "204", description = "Creates a new booking and sends an e-mail with the details")
@@ -34,7 +36,7 @@ public class ChargeDetailControllerV1 {
             ))
     @ApiResponse(responseCode = "500", description = "Internal Server Error")
     public void createChargeDetailRecord(@Valid @RequestBody ChargeDetailDTO chargeDetailDTO) {
-        // TODO document why this method is empty
+        chargeDetailService.createChargeDetailRecord(chargeDetailDTO);
     }
 
     @GetMapping("/{charge_id}")
@@ -49,8 +51,8 @@ public class ChargeDetailControllerV1 {
                     mediaType = "application/json",
                     schema = @Schema(implementation = ApiError.class)
             ))
-    public ResponseEntity<ChargeDetailDTO> getChargeDetailRecord(@PathVariable(value = "charge_id") @Min(1) String chargeId) {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<ChargeDetailDTO> getChargeDetailRecord(@PathVariable(value = "charge_id") @Min(1) long chargeId) {
+        return ResponseEntity.ok(chargeDetailService.getChargeDetailRecord(chargeId));
     }
 
     @GetMapping("/search/{vin}")
@@ -65,7 +67,7 @@ public class ChargeDetailControllerV1 {
                     mediaType = "application/json",
                     schema = @Schema(implementation = ApiError.class)
             ))
-    public ResponseEntity<Set<String>> searchVehicleChargeDetails(@PathVariable @Min(1) String vin) {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<List<ChargeDetailEntity>> searchVehicleChargeDetails(@PathVariable @Min(1) String vin, final Integer offset, final Integer limit) {
+        return ResponseEntity.ok(chargeDetailService.searchVehicleChargeDetails(vin, offset, limit));
     }
 }

@@ -15,6 +15,6 @@ public class ApiConstants {
     public static final String END_TIME = "endTime";
     public static final String START_TIME = "startTime";
 
-    public static final String CHARGE = "charge";
+    public static final String CHARGE_DETAIL = "charge_detail";
 
 }

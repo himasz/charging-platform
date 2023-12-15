@@ -3,9 +3,9 @@ package com.dcs.common.error.exceptions;
 
 import com.dcs.common.error.codes.ApiErrorCode;
 
-public class NotFoundDataException extends ServiceException {
+public class DataNotFoundException extends ServiceException {
 
-    public NotFoundDataException(final String message) {
+    public DataNotFoundException(final String message) {
         super(message);
     }
 

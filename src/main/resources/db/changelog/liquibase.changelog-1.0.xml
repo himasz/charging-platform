@@ -1,0 +1,35 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd">
+
+    <changeSet author="EBZ" id="1">
+        <createTable tableName="charge_detail">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="vin" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_time" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_time" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="EBZ" id="2">
+        <createIndex indexName="INDEX_CHARGE_ID" tableName="charge_detail">
+            <column name="id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="EBZ" id="3">
+        <createIndex indexName="INDEX_CHARGE_VIN" tableName="charge_detail">
+            <column name="vin"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>
