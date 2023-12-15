@@ -1,12 +1,14 @@
-package com.dcs.component;
+package com.dcs.service;
 
-import com.dcs.common.constants.ApiConstants;
+import com.dcs.common.constants.Constants;
 import com.dcs.common.dto.ChargeDetailDTO;
 import com.dcs.common.entity.ChargeDetailEntity;
 import com.dcs.common.error.exceptions.DataNotFoundException;
 import com.dcs.common.error.exceptions.DataValidationException;
 import com.dcs.mapper.ChargeDetailMapper;
+import com.dcs.repository.ChargeDetailRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -36,20 +38,19 @@ public class ChargeDetailServiceImpl implements ChargeDetailService {
     }
 
     @Override
-    public List<ChargeDetailEntity> searchVehicleChargeDetails(final String vin, final Integer offset, final Integer limit) {
+    public List<ChargeDetailEntity> searchVehicleChargeDetails(final String vin, final Integer page, final Integer pageSize) {
         List<ChargeDetailEntity> chargeDetailEntities =
-                Optional.ofNullable(repository.getAllChargeDetailByVin(vin, getPageRequest(offset, limit)))
-                        .orElseThrow(() -> new DataNotFoundException("vin: " + vin));
+                repository.getAllChargeDetailByVin(vin, getPageRequest(page, pageSize));
         if (chargeDetailEntities.isEmpty()) {
-            throw new DataNotFoundException("vin: " + vin);
+            throw new DataNotFoundException("vin = " + vin);
         }
         return chargeDetailEntities;
     }
 
-    private static PageRequest getPageRequest(Integer offset, Integer limit) {
-        Sort sort = Sort.by(Sort.Direction.ASC, ApiConstants.START_TIME)
-                .and(Sort.by(Sort.Direction.ASC, ApiConstants.END_TIME));
-        return PageRequest.of(offset, limit, sort);
+    private static PageRequest getPageRequest(Integer page, Integer pageSize) {
+        Sort sort = Sort.by(Sort.Direction.ASC, Constants.START_TIME)
+                .and(Sort.by(Sort.Direction.ASC, Constants.END_TIME));
+        return PageRequest.of(page, pageSize, sort);
     }
 
     private static void checkTimeConstraint(final long endTime, final long startTime) {

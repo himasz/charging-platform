@@ -11,7 +11,7 @@ public class DataNotFoundException extends ServiceException {
 
     @Override
     public ApiErrorCode getApiErrorCode() {
-        return ApiErrorCode.NOT_FOUND_DATA;
+        return ApiErrorCode.DATA_NOT_FOUND;
     }
 
 }

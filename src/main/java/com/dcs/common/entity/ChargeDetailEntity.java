@@ -1,6 +1,6 @@
 package com.dcs.common.entity;
 
-import com.dcs.common.constants.ApiConstants;
+import com.dcs.common.constants.Constants;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,10 +11,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Table(name = ApiConstants.CHARGE_DETAIL)
+@Table(name = Constants.CHARGE_DETAIL)
 public class ChargeDetailEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String vin;
     private long startTime;

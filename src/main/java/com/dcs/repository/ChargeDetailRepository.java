@@ -1,4 +1,4 @@
-package com.dcs.component;
+package com.dcs.repository;
 
 import com.dcs.common.entity.ChargeDetailEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,9 +10,9 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @Repository
-interface ChargeDetailRepository extends JpaRepository<ChargeDetailEntity, Long> {
+public interface ChargeDetailRepository extends JpaRepository<ChargeDetailEntity, Long> {
 
-    @Query("SELECT chargeDetail FROM ChargeDetailEntity chargeDetail where chargeDetail.vin =:vin")
+    @Query(value = "SELECT * FROM charge_detail WHERE vin = :vin", nativeQuery = true)
     List<ChargeDetailEntity> getAllChargeDetailByVin(@Param("vin") String vin, Pageable pageable);
 
 }

@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 public enum ApiErrorCode implements IApiErrorCode {
     MISSING_BODY_FIELD(1, HttpStatus.BAD_REQUEST, "Invalid body field"),
     INVALID_DATA_VALUE(2, HttpStatus.BAD_REQUEST, "Invalid data for value"),
-    NOT_FOUND_DATA(3, HttpStatus.BAD_REQUEST, "No data found for value"),
+    DATA_NOT_FOUND(3, HttpStatus.BAD_REQUEST, "No data found for value"),
     EMAIL_AUTH_FAILED(4, HttpStatus.INTERNAL_SERVER_ERROR, "Authentication failed");
 
     @Getter

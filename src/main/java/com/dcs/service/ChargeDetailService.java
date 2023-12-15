@@ -1,4 +1,4 @@
-package com.dcs.component;
+package com.dcs.service;
 
 import com.dcs.common.dto.ChargeDetailDTO;
 import com.dcs.common.entity.ChargeDetailEntity;
@@ -11,5 +11,5 @@ public interface ChargeDetailService {
 
     ChargeDetailDTO getChargeDetailRecord(long chargeId);
 
-    List<ChargeDetailEntity> searchVehicleChargeDetails(final String vin, final Integer offset, final Integer limit);
+    List<ChargeDetailEntity> searchVehicleChargeDetails(final String vin, final Integer page, final Integer pageSize);
 }
