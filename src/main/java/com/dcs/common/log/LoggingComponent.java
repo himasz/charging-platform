@@ -16,11 +16,13 @@ import java.lang.annotation.Annotation;
 @Slf4j
 public class LoggingComponent {
 
-    @Pointcut("execution(* com.statista.code.challenge.*.*(..))")
-    public void controllersPoint(){}
+    @Pointcut("execution(* com.dcs.*.*(..))")
+    public void controllersPoint() {
+    }
 
-    @Pointcut("execution(* com.statista.code.challenge.*.*.*(..))")
-    public void ComponentsPoint(){}
+    @Pointcut("execution(* com.dcs.*.*.*(..))")
+    public void ComponentsPoint() {
+    }
 
 
     private static final String POINTCUT = "controllersPoint() || ComponentsPoint()";
@@ -36,7 +38,7 @@ public class LoggingComponent {
         if (result != null) {
             entityString = result.toString();
         }
-        log.debug("< {} {}{} = {}", joinPoint.getTarget().getClass(),joinPoint.getSignature().getName(), argumentsToString(joinPoint), entityString);
+        log.debug("< {} {}{} = {}", joinPoint.getTarget().getClass(), joinPoint.getSignature().getName(), argumentsToString(joinPoint), entityString);
     }
 
     @AfterThrowing(pointcut = POINTCUT, throwing = "e")
@@ -73,6 +75,11 @@ public class LoggingComponent {
             if (annotation instanceof PathVariable) {
                 argName = ((PathVariable) annotation).value();
 
+            } else if (annotation instanceof RequestParam) {
+                argName = ((RequestParam) annotation).value();
+
+            } else if (annotation instanceof RequestHeader) {
+                argName = ((RequestHeader) annotation).name();
             }
         }
         if (null != argName) {
