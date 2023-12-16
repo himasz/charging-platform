@@ -38,12 +38,12 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(body, ApiErrorCode.MISSING_BODY_FIELD.getHttpStatus());
     }
 
-//    @Override
-//    protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-//        ApiErrorCode errorCode = ApiErrorCode.MISSING_DATA_VALUE;
-//        String detailedMessage = ex.getMessage();
-//        return new ResponseEntity<>(errorCode.toResponseEntity(detailedMessage), errorCode.getHttpStatus());
-//    }
+    @Override
+    protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        ApiErrorCode errorCode = ApiErrorCode.MISSING_DATA_VALUE;
+        String detailedMessage = ex.getMessage();
+        return new ResponseEntity<>(errorCode.toResponseEntity(detailedMessage), errorCode.getHttpStatus());
+    }
 
     @ExceptionHandler(ServiceException.class)
     public final ResponseEntity<ApiError> handleServiceException(ServiceException exception) {
@@ -52,10 +52,10 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorCode.toResponseEntity(detailedMessage), errorCode.getHttpStatus());
     }
 
-//    @ExceptionHandler(ConstraintViolationException.class)
-//    public final ResponseEntity<ApiError> handleConstraintViolationException(ConstraintViolationException exception) {
-//        ApiErrorCode errorCode = ApiErrorCode.MISSING_DATA_VALUE;
-//        String detailedMessage = exception.getMessage();
-//        return new ResponseEntity<>(errorCode.toResponseEntity(detailedMessage!=null?detailedMessage:""), errorCode.getHttpStatus());
-//    }
+    @ExceptionHandler(ConstraintViolationException.class)
+    public final ResponseEntity<ApiError> handleConstraintViolationException(ConstraintViolationException exception) {
+        ApiErrorCode errorCode = ApiErrorCode.MISSING_DATA_VALUE;
+        String detailedMessage = exception.getMessage();
+        return new ResponseEntity<>(errorCode.toResponseEntity(detailedMessage!=null?detailedMessage:""), errorCode.getHttpStatus());
+    }
 }

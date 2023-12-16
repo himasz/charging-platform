@@ -1,7 +1,6 @@
 package com.dcs.controller;
 
 import com.dcs.common.dto.ChargeDetailDTO;
-import com.dcs.common.entity.ChargeDetailEntity;
 import com.dcs.common.error.ApiError;
 import com.dcs.service.ChargeDetailService;
 import io.swagger.v3.oas.annotations.Operation;

@@ -26,6 +26,7 @@
         <liquibase-core.version>4.25.0</liquibase-core.version>
         <mysql-connector-java.version>8.0.33</mysql-connector-java.version>
         <spring.profiles.active>local,no-liquibase</spring.profiles.active>
+        <test-container.version>1.19.3</test-container.version>
     </properties>
 
     <dependencies>
@@ -77,8 +78,15 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${test-container.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${test-container.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>

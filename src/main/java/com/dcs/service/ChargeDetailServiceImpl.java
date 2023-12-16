@@ -16,6 +16,8 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
+import static com.dcs.common.constants.Constants.*;
+
 @Service
 @RequiredArgsConstructor
 public class ChargeDetailServiceImpl implements ChargeDetailService {
@@ -34,7 +36,7 @@ public class ChargeDetailServiceImpl implements ChargeDetailService {
         try {
             return mapper.toDTO(repository.getById(chargeId));
         } catch (EntityNotFoundException e) {
-            throw new DataNotFoundException("No charge detail found for: " + chargeId);
+            throw new DataNotFoundException(NO_CHARGE_DETAIL_FOUND_FOR + chargeId);
         }
     }
 
@@ -43,7 +45,7 @@ public class ChargeDetailServiceImpl implements ChargeDetailService {
         List<ChargeDetailEntity> chargeDetailEntities =
                 repository.getAllChargeDetailByVin(vin, getPageRequest(page, pageSize));
         if (chargeDetailEntities.isEmpty()) {
-            throw new DataNotFoundException("vin = " + vin);
+            throw new DataNotFoundException(NO_CHARGE_DETAIL_FOUND_FOR + vin);
         }
         return mapper.toDTOList(chargeDetailEntities);
     }
@@ -57,7 +59,7 @@ public class ChargeDetailServiceImpl implements ChargeDetailService {
     private static void checkTimeConstraint(final long endTime, final long startTime) {
         boolean isNotAfterLastCharge = atomicOldEndTime.get() != 0 && atomicOldEndTime.get() > startTime;
         if (startTime >= endTime || isNotAfterLastCharge) {
-            throw new DataValidationException(String.format("startTime: %s , endTime: %s", startTime, endTime));
+            throw new DataValidationException(String.format(START_TIME_S_END_TIME_S_MESSAGE, startTime, endTime));
         }
         atomicOldEndTime.set(endTime);
     }
