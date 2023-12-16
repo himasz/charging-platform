@@ -35,10 +35,9 @@ class ChargeDetailMapperTest extends TestData {
 
     @Test
     void test_toDTOList() {
-        ChargeDetailEntity chargeDetailEntity = new ChargeDetailEntity(ID_1, VIN_1, START_1, END_1, PRICE_1);
-        List<ChargeDetailDTO> chargeDetailDTOS = ChargeDetailMapper.INSTANCE.toDTOList(List.of(chargeDetailEntity));
-        Assertions.assertEquals(1, chargeDetailDTOS.size());
-        Assertions.assertTrue(chargeDetailDTOS.contains(ChargeDetailMapper.INSTANCE.toDTO(chargeDetailEntity)));
+        ChargeDetailEntity entity = new ChargeDetailEntity(ID_1, VIN_1, START_1, END_1, PRICE_1);
+        List<ChargeDetailDTO> chargeDetailDTOS = ChargeDetailMapper.INSTANCE.toDTOList(List.of(entity));
+        Assertions.assertIterableEquals(chargeDetailDTOS, List.of(ChargeDetailMapper.INSTANCE.toDTO(entity)));
     }
 
 }

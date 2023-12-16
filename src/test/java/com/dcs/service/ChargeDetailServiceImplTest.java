@@ -1,6 +1,5 @@
 package com.dcs.service;
 
-
 import com.dcs.TestData;
 import com.dcs.common.dto.ChargeDetailDTO;
 import com.dcs.common.entity.ChargeDetailEntity;
@@ -9,8 +8,11 @@ import com.dcs.common.error.exceptions.DataValidationException;
 import com.dcs.mapper.ChargeDetailMapper;
 import com.dcs.repository.ChargeDetailRepository;
 import org.junit.jupiter.api.*;
+import org.springframework.data.domain.Pageable;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Collections;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -19,7 +21,6 @@ import static org.mockito.Mockito.*;
 class ChargeDetailServiceImplTest extends TestData {
     ChargeDetailRepository repository = mock(ChargeDetailRepository.class);
     ChargeDetailService service = new ChargeDetailServiceImpl(repository, ChargeDetailMapper.INSTANCE);
-    ;
 
     @Test
     @Order(1)
@@ -92,21 +93,26 @@ class ChargeDetailServiceImplTest extends TestData {
         Assertions.assertEquals(PRICE_1, chargeDetailDTO.getPrice());
     }
 
-
     @Test
     void test_getChargeDetailRecord_throwsDataNotFoundException() {
         when(repository.getById(ID_2)).thenThrow(new EntityNotFoundException());
         assertThrows(DataNotFoundException.class, () -> service.getChargeDetailRecord(ID_2));
     }
-//
-//    @Test
-//    void test_getDepartmentBookingIds_noFoundDepartmentThrowsInvalidParamException() {
-//        assertThrows(MissingDataException.class, () -> service.getDepartmentBookingIds(DEPARTMENT_1));
-//    }
-//
-//    @Test
-//    void test_getCurrencySum_noFoundCurrencyThrowsInvalidParamException() {
-//        assertThrows(MissingDataException.class, () -> service.getCurrencySum(EUR.name()));
-//    }
 
+    @Test
+    void test_searchVehicleChargeDetails_successfully() {
+        //given
+        ChargeDetailEntity entity = new ChargeDetailEntity(ID_1, VIN_1, START_1, END_1, PRICE_1);
+        when(repository.getAllChargeDetailByVin(eq(VIN_1), any(Pageable.class))).thenReturn(List.of(entity));
+        //when
+        List<ChargeDetailDTO> chargeDetailDTOS = service.searchVehicleChargeDetails(VIN_1, 0, 10);
+        //then
+        Assertions.assertIterableEquals(chargeDetailDTOS, List.of(ChargeDetailMapper.INSTANCE.toDTO(entity)));
+    }
+
+    @Test
+    void test_searchVehicleChargeDetails_throwsDataNotFoundException() {
+        when(repository.getAllChargeDetailByVin(eq(VIN_2), any(Pageable.class))).thenReturn(Collections.emptyList());
+        assertThrows(DataNotFoundException.class, () -> service.searchVehicleChargeDetails(VIN_2, 0, 10));
+    }
 }
