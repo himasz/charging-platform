@@ -1,0 +1,84 @@
+{
+	"info": {
+		"_postman_id": "2285bb01-b4dd-42b2-b7c8-78896332675e",
+		"name": "Charge-Detail-Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22851235"
+	},
+	"item": [
+		{
+			"name": "CreateChargeDetail",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 123,\n    \"vin\": \"vin1\",\n    \"startTime\": 1702591723437,\n    \"endTime\": 1702590823437,\n    \"price\": 30.0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/charge/detail/v1/create",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"charge",
+						"detail",
+						"v1",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetChargeDetail",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9090/charge/detail/v1//123",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"charge",
+						"detail",
+						"v1",
+						"",
+						"123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllVinChargeDetail",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9090/charge/detail/v1/search/vin1",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"charge",
+						"detail",
+						"v1",
+						"search",
+						"vin1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

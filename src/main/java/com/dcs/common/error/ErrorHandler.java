@@ -26,12 +26,11 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception, HttpHeaders headers, HttpStatus status, WebRequest request) {
         Map<String, Object> body = new LinkedHashMap<>();
-        // Get all errors
         List<String> errors = exception.getBindingResult()
                 .getFieldErrors()
                 .stream()
                 .map(FieldError::getField)
-                .collect(Collectors.toList());
+                .toList();
 
         body.put("code", ApiErrorCode.MISSING_BODY_FIELD.getCode());
         body.put("message", ApiErrorCode.MISSING_BODY_FIELD.name());

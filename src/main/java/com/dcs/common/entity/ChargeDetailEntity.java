@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Table(name = Constants.CHARGE_DETAIL)
+@Table(name = Constants.CHARGE_DETAIL_TBL)
 public class ChargeDetailEntity {
     @Id
     private Long id;

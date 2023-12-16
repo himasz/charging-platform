@@ -11,5 +11,5 @@ public interface ChargeDetailService {
 
     ChargeDetailDTO getChargeDetailRecord(long chargeId);
 
-    List<ChargeDetailEntity> searchVehicleChargeDetails(final String vin, final Integer page, final Integer pageSize);
+    List<ChargeDetailDTO> searchVehicleChargeDetails(final String vin, final Integer page, final Integer pageSize);
 }

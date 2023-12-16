@@ -68,7 +68,7 @@ public class ChargeDetailControllerV1 {
                     mediaType = "application/json",
                     schema = @Schema(implementation = ApiError.class)
             ))
-    public ResponseEntity<List<ChargeDetailEntity>> searchVehicleChargeDetails(
+    public ResponseEntity<List<ChargeDetailDTO>> searchVehicleChargeDetails(
             @PathVariable @Min(MIN) String vin,
             @RequestParam(required = false, defaultValue = DEFAULT_PAGE) @Min(MIN) final Integer page,
             @RequestParam(required = false, defaultValue = DEFAULT_PAGE_SIZE) @Min(MIN) @Max(MAX) final Integer pageSize) {

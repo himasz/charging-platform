@@ -17,6 +17,8 @@ public interface ChargeDetailMapper {
 
     ChargeDetailDTO toDTO(ChargeDetailEntity chargeDetailEntity);
 
-    ChargeDetailEntity toEntity(ChargeDetailDTO deviceEntity);
+    ChargeDetailEntity toEntity(ChargeDetailDTO chargeDetailDTO);
+
+    List<ChargeDetailDTO> toDTOList(List<ChargeDetailEntity> entities);
 
 }

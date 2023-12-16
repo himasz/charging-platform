@@ -8,6 +8,6 @@ public class Constants {
     public static final String DEFAULT_PAGE_SIZE = "10";
     public static final String END_TIME = "end_time";
     public static final String START_TIME = "start_time";
-    public static final String CHARGE_DETAIL = "charge_detail";
+    public static final String CHARGE_DETAIL_TBL = "charge_detail";
 
 }

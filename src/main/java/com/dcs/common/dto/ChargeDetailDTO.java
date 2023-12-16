@@ -22,16 +22,4 @@ public class ChargeDetailDTO {
     private long endTime;
     @NotNull
     private double price;
-
-    public static void main(String[] args) {
-        long valueToAdd = Duration.ofMinutes(15).toMillis();
-        long start = System.currentTimeMillis();
-        long end = start + valueToAdd;
-        long start2 = end + valueToAdd;
-        long end2 = start2 + valueToAdd;
-        long start3 = end2 + valueToAdd;
-        long end3= start3 + valueToAdd;
-
-        System.out.println(String.format("%s %s %s %s %s %s", end, start,  start2, end2, start3, end3));
-    }
 }
