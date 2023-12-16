@@ -21,8 +21,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
-import static com.dcs.common.constants.Constants.NO_CHARGE_DETAIL_FOUND_FOR;
-import static com.dcs.common.constants.Constants.START_TIME_S_END_TIME_S_MESSAGE;
+import static com.dcs.common.constant.Constants.NO_CHARGE_DETAIL_FOUND_FOR;
+import static com.dcs.common.constant.Constants.START_TIME_S_END_TIME_S_MESSAGE;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
@@ -74,7 +74,7 @@ class ChargeDetailControllerV1Test extends BaseTest {
     @Test
     @Order(2)
     void testThatSearchByVinReturnsValuesInOrder() {
-        long startTime = END_1 + ONE_MINUTES;
+        long startTime = END_1 + ONE_MINUTE;
         long endTime = END_1 + TEN_MINUTES;
         ChargeDetailDTO chargeDetailDTO = new ChargeDetailDTO(ID_2, VIN_1, startTime, endTime, PRICE_1);
         restTemplate.exchange(CREATE_CHARGE_DETAIL_URI, POST, new HttpEntity<>(chargeDetailDTO), Void.class);

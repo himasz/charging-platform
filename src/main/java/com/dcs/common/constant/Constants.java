@@ -1,4 +1,4 @@
-package com.dcs.common.constants;
+package com.dcs.common.constant;
 
 public class Constants {
 

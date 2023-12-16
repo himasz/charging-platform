@@ -1,6 +1,6 @@
 package com.dcs.common.entity;
 
-import com.dcs.common.constants.Constants;
+import com.dcs.common.constant.Constants;
 import lombok.*;
 
 import javax.persistence.*;

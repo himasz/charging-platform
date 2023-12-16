@@ -27,6 +27,7 @@
         <mysql-connector-java.version>8.0.33</mysql-connector-java.version>
         <spring.profiles.active>local,no-liquibase</spring.profiles.active>
         <test-container.version>1.19.3</test-container.version>
+        <maven-plugin.version>3.0.0-M5</maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -131,12 +132,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M5</version>
+                <version>${maven-plugin.version}</version>
                 <configuration>
                     <includes>
                         <include>**/*Test.java</include>
-                        <include>**/*Tests.java</include>
-                        <include>**/*TestCase.java</include>
                     </includes>
                 </configuration>
             </plugin>

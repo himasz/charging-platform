@@ -17,7 +17,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.List;
 
-import static com.dcs.common.constants.Constants.*;
+import static com.dcs.common.constant.Constants.*;
 
 @RestController
 @RequestMapping("/charge/detail/v1")

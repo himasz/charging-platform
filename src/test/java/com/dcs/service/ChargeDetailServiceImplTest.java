@@ -19,14 +19,21 @@ import static org.mockito.Mockito.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ChargeDetailServiceImplTest extends TestData {
-    ChargeDetailRepository repository = mock(ChargeDetailRepository.class);
-    ChargeDetailService service = new ChargeDetailServiceImpl(repository, ChargeDetailMapper.INSTANCE);
+    private static ChargeDetailRepository repository = mock(ChargeDetailRepository.class);
+    private static ChargeDetailServiceImpl service = new ChargeDetailServiceImpl(repository, ChargeDetailMapper.INSTANCE);
+
+    @BeforeAll
+    public static void beforeAll() {
+        service.resetTimer();
+    }
 
     @Test
     @Order(1)
-    void test_createChargeDetailRecord_successfully() {
+    void testA_createChargeDetailRecord_successfully() {
         //given
-        ChargeDetailDTO detailDTO1 = new ChargeDetailDTO(ID_1, VIN_1, START_1, END_1, PRICE_1);
+        long startTime = System.currentTimeMillis();
+        long endTime = System.currentTimeMillis() + ONE_MINUTE;
+        ChargeDetailDTO detailDTO1 = new ChargeDetailDTO(ID_1, VIN_1, startTime, endTime, PRICE_1);
         //when
         service.createChargeDetailRecord(detailDTO1);
         //then
@@ -35,12 +42,12 @@ class ChargeDetailServiceImplTest extends TestData {
 
     @Test
     @Order(2)
-    void test_createChargeDetailRecord_successfulCheckTimeConstraintWhenCreatingAnotherEntity() {
+    void testB_createChargeDetailRecord_successfulCheckTimeConstraintWhenCreatingAnotherEntity() {
         //given
-        long startTime1 = System.currentTimeMillis() + ONE_MINUTES;
-        long endTime1 = startTime1 + ONE_MINUTES;
-        long startTime2 = endTime1 + ONE_MINUTES;
-        long endTime2 = startTime2 + ONE_MINUTES;
+        long startTime1 = System.currentTimeMillis() + ONE_MINUTE;
+        long endTime1 = startTime1 + ONE_MINUTE;
+        long startTime2 = endTime1 + ONE_MINUTE;
+        long endTime2 = startTime2 + ONE_MINUTE;
         ChargeDetailDTO detailDTO1 = new ChargeDetailDTO(ID_1, VIN_1, startTime1, endTime1, PRICE_1);
         ChargeDetailDTO detailDTO2 = new ChargeDetailDTO(ID_2, VIN_2, startTime2, endTime2, PRICE_2);
         //when
@@ -53,11 +60,10 @@ class ChargeDetailServiceImplTest extends TestData {
 
     @Test
     @Order(3)
-    void test_createChargeDetailRecord_FailedCheckTimeConstraintWithStartTimeSameAsEndTime() {
+    void testC_createChargeDetailRecord_FailedCheckTimeConstraintWithStartTimeSameAsEndTime() {
         //given
         ChargeDetailDTO detailDTO1 = new ChargeDetailDTO(ID_1, VIN_1, START_1, START_1, PRICE_1);
         //when
-        service = new ChargeDetailServiceImpl(repository, ChargeDetailMapper.INSTANCE);
         assertThrows(DataValidationException.class, () -> service.createChargeDetailRecord(detailDTO1));
         //then
         verify(repository, times(0)).save(ChargeDetailMapper.INSTANCE.toEntity(detailDTO1));
@@ -65,10 +71,10 @@ class ChargeDetailServiceImplTest extends TestData {
 
     @Test
     @Order(4)
-    void test_createChargeDetailRecord_FailedCheckTimeConstraintWhenCreatingAnotherEntityWithSameTimes() {
+    void testD_createChargeDetailRecord_FailedCheckTimeConstraintWhenCreatingAnotherEntityWithSameTimes() {
         //given
         long startTime = System.currentTimeMillis() + TEN_MINUTES;
-        long endTime = startTime + ONE_MINUTES;
+        long endTime = startTime + ONE_MINUTE;
         ChargeDetailDTO detailDTO1 = new ChargeDetailDTO(ID_1, VIN_1, startTime, endTime, PRICE_1);
         ChargeDetailDTO detailDTO2 = new ChargeDetailDTO(ID_2, VIN_2, startTime, endTime, PRICE_2);
         //when
@@ -114,5 +120,10 @@ class ChargeDetailServiceImplTest extends TestData {
     void test_searchVehicleChargeDetails_throwsDataNotFoundException() {
         when(repository.getAllChargeDetailByVin(eq(VIN_2), any(Pageable.class))).thenReturn(Collections.emptyList());
         assertThrows(DataNotFoundException.class, () -> service.searchVehicleChargeDetails(VIN_2, 0, 10));
+    }
+
+    @AfterAll
+    public static void afterAll() {
+        service.resetTimer();
     }
 }
