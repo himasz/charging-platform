@@ -1,9 +1,11 @@
 package com.dcs.common.entity;
 
-import com.dcs.common.constant.Constants;
+import com.dcs.common.Constants;
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Getter

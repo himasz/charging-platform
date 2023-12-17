@@ -1,10 +1,10 @@
 package com.dcs.service;
 
-import com.dcs.common.constant.Constants;
+import com.dcs.common.Constants;
 import com.dcs.common.dto.ChargeDetailDTO;
 import com.dcs.common.entity.ChargeDetailEntity;
-import com.dcs.common.error.exceptions.DataNotFoundException;
-import com.dcs.common.error.exceptions.DataValidationException;
+import com.dcs.common.error.exception.DataNotFoundException;
+import com.dcs.common.error.exception.DataValidationException;
 import com.dcs.mapper.ChargeDetailMapper;
 import com.dcs.repository.ChargeDetailRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,8 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static com.dcs.common.constant.Constants.*;
+import static com.dcs.common.Constants.ERROR_MSG_NO_CHARGE_DETAIL_FOUND_FOR;
+import static com.dcs.common.Constants.ERROR_MSG_START_TIME_S_END_TIME_S;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +37,7 @@ public class ChargeDetailServiceImpl implements ChargeDetailService {
         try {
             return mapper.toDTO(repository.getById(chargeId));
         } catch (EntityNotFoundException e) {
-            throw new DataNotFoundException(NO_CHARGE_DETAIL_FOUND_FOR + chargeId);
+            throw new DataNotFoundException(ERROR_MSG_NO_CHARGE_DETAIL_FOUND_FOR + chargeId);
         }
     }
 
@@ -45,7 +46,7 @@ public class ChargeDetailServiceImpl implements ChargeDetailService {
         List<ChargeDetailEntity> chargeDetailEntities =
                 repository.getAllChargeDetailByVin(vin, getPageRequest(page, pageSize));
         if (chargeDetailEntities.isEmpty()) {
-            throw new DataNotFoundException(NO_CHARGE_DETAIL_FOUND_FOR + vin);
+            throw new DataNotFoundException(ERROR_MSG_NO_CHARGE_DETAIL_FOUND_FOR + vin);
         }
         return mapper.toDTOList(chargeDetailEntities);
     }
@@ -59,7 +60,7 @@ public class ChargeDetailServiceImpl implements ChargeDetailService {
     private static void checkTimeConstraint(final long startTime, final long endTime) {
         boolean isNotAfterLastCharge = atomicOldEndTime.get() != 0 && atomicOldEndTime.get() > startTime;
         if (startTime >= endTime || isNotAfterLastCharge) {
-            throw new DataValidationException(String.format(START_TIME_S_END_TIME_S_MESSAGE, startTime, endTime, atomicOldEndTime.get(), System.currentTimeMillis()));
+            throw new DataValidationException(String.format(ERROR_MSG_START_TIME_S_END_TIME_S, startTime, endTime, atomicOldEndTime.get(), System.currentTimeMillis()));
         }
         atomicOldEndTime.set(endTime);
     }

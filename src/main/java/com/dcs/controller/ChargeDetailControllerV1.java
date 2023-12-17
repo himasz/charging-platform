@@ -1,7 +1,7 @@
 package com.dcs.controller;
 
 import com.dcs.common.dto.ChargeDetailDTO;
-import com.dcs.common.error.ApiError;
+import com.dcs.common.error.DCSError;
 import com.dcs.service.ChargeDetailService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -17,7 +17,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import java.util.List;
 
-import static com.dcs.common.constant.Constants.*;
+import static com.dcs.common.Constants.*;
 
 @RestController
 @RequestMapping("/charge/detail/v1")
@@ -32,7 +32,7 @@ public class ChargeDetailControllerV1 {
     @ApiResponse(responseCode = "400", description = "Some parameters are missing or invalid",
             content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ApiError.class)
+                    schema = @Schema(implementation = DCSError.class)
             ))
     @ApiResponse(responseCode = "500", description = "Internal Server Error")
     public void createChargeDetailRecord(@Valid @RequestBody ChargeDetailDTO chargeDetailDTO) {
@@ -49,7 +49,7 @@ public class ChargeDetailControllerV1 {
     @ApiResponse(responseCode = "400", description = "when there is no charge detail record with given charge_id",
             content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ApiError.class)
+                    schema = @Schema(implementation = DCSError.class)
             ))
     public ResponseEntity<ChargeDetailDTO> getChargeDetailRecord(@PathVariable(value = "charge_id") @Min(1) long chargeId) {
         return ResponseEntity.ok(chargeDetailService.getChargeDetailRecord(chargeId));
@@ -57,7 +57,7 @@ public class ChargeDetailControllerV1 {
 
     @GetMapping("/search/{vin}")
     @Operation(summary = "Get list of charge detail records for a certain vin")
-    @ApiResponse(responseCode = "200", description = "Returns list of charge detail records for a certain vin",
+    @ApiResponse(responseCode = "200", description = "Returns a list of charge detail records for a certain vin",
             content = @Content(
                     mediaType = "application/json",
                     schema = @Schema(implementation = List.class)
@@ -65,7 +65,7 @@ public class ChargeDetailControllerV1 {
     @ApiResponse(responseCode = "400", description = "when there are no charge detail records with given vin",
             content = @Content(
                     mediaType = "application/json",
-                    schema = @Schema(implementation = ApiError.class)
+                    schema = @Schema(implementation = DCSError.class)
             ))
     public ResponseEntity<List<ChargeDetailDTO>> searchVehicleChargeDetails(
             @PathVariable @Min(MIN) String vin,

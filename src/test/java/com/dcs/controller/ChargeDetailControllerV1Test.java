@@ -3,8 +3,8 @@ package com.dcs.controller;
 
 import com.dcs.BaseTest;
 import com.dcs.common.dto.ChargeDetailDTO;
-import com.dcs.common.error.ApiError;
-import com.dcs.common.error.codes.ApiErrorCode;
+import com.dcs.common.error.DCSError;
+import com.dcs.common.error.DCSErrorCode;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -21,8 +21,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
-import static com.dcs.common.constant.Constants.NO_CHARGE_DETAIL_FOUND_FOR;
-import static com.dcs.common.constant.Constants.START_TIME_S_END_TIME_S_MESSAGE;
+import static com.dcs.common.Constants.ERROR_MSG_NO_CHARGE_DETAIL_FOUND_FOR;
+import static com.dcs.common.Constants.ERROR_MSG_START_TIME_S_END_TIME_S;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
@@ -40,7 +40,7 @@ class ChargeDetailControllerV1Test extends BaseTest {
 
     @Test
     @Order(1)
-    @Sql("classpath:/liquibase/data/clear-data.sql")
+    @Sql("classpath:/liquibase/data/remove-test-table-data.sql")
     void whenAddNewChargeDetailAndGetItCorrectly() {
         ResponseEntity<Void> createResponse =
                 restTemplate.exchange(CREATE_CHARGE_DETAIL_URI, POST, new HttpEntity<>(CHARGE_DETAIL), Void.class);
@@ -94,61 +94,60 @@ class ChargeDetailControllerV1Test extends BaseTest {
     @Test
     @Order(3)
     void testTimeConstraintFailure() {
-        ResponseEntity<ApiError> creatResponseError =
-                restTemplate.exchange(CREATE_CHARGE_DETAIL_URI, POST, new HttpEntity<>(CHARGE_DETAIL), ApiError.class);
-        ApiError apiError = creatResponseError.getBody();
+        ResponseEntity<DCSError> creatResponseError =
+                restTemplate.exchange(CREATE_CHARGE_DETAIL_URI, POST, new HttpEntity<>(CHARGE_DETAIL), DCSError.class);
+        DCSError DCSError = creatResponseError.getBody();
 
-        assertThat(apiError).isNotNull();
-        assertThat(apiError.getDescription()).isNotEmpty();
-        assertThat(apiError.getDescription()).contains(String.format(START_TIME_S_END_TIME_S_MESSAGE, START_1, END_1));
-        assertThat(apiError.getCode()).isEqualTo(ApiErrorCode.INVALID_DATA_VALUE.getCode());
-        assertThat(apiError.getMessage()).isEqualTo(ApiErrorCode.INVALID_DATA_VALUE.name());
-        assertThat(creatResponseError.getStatusCode()).isEqualTo(ApiErrorCode.INVALID_DATA_VALUE.getHttpStatus());
+        assertThat(DCSError).isNotNull();
+        assertThat(DCSError.getDescription()).isNotEmpty();
+        assertThat(DCSError.getDescription()).contains(String.format(ERROR_MSG_START_TIME_S_END_TIME_S, START_1, END_1));
+        assertThat(DCSError.getCode()).isEqualTo(DCSErrorCode.INVALID_DATA_VALUE.getCode());
+        assertThat(DCSError.getMessage()).isEqualTo(DCSErrorCode.INVALID_DATA_VALUE.name());
+        assertThat(creatResponseError.getStatusCode()).isEqualTo(DCSErrorCode.INVALID_DATA_VALUE.getStatus());
     }
 
     @Test
     void whenCallingCreatingChargeDetailWithWrongBody() {
         //empty body
         ChargeDetailDTO chargeDetailDTO = new ChargeDetailDTO();
-        ResponseEntity<ApiError> exchange =
-                restTemplate.exchange(CREATE_CHARGE_DETAIL_URI, POST, new HttpEntity<>(chargeDetailDTO), ApiError.class);
+        ResponseEntity<DCSError> exchange =
+                restTemplate.exchange(CREATE_CHARGE_DETAIL_URI, POST, new HttpEntity<>(chargeDetailDTO), DCSError.class);
 
-        ApiError apiError = exchange.getBody();
+        DCSError DCSError = exchange.getBody();
 
-        assertThat(apiError).isNotNull();
-        assertThat(apiError.getDescription()).isNotEmpty();
-        assertThat(apiError.getCode()).isEqualTo(ApiErrorCode.MISSING_BODY_FIELD.getCode());
-        assertThat(apiError.getMessage()).isEqualTo(ApiErrorCode.MISSING_BODY_FIELD.name());
-        assertThat(exchange.getStatusCode()).isEqualTo(ApiErrorCode.MISSING_BODY_FIELD.getHttpStatus());
+        assertThat(DCSError).isNotNull();
+        assertThat(DCSError.getDescription()).isNotEmpty();
+        assertThat(DCSError.getCode()).isEqualTo(DCSErrorCode.NOT_FOUND_BODY_FIELD.getCode());
+        assertThat(DCSError.getMessage()).isEqualTo(DCSErrorCode.NOT_FOUND_BODY_FIELD.name());
+        assertThat(exchange.getStatusCode()).isEqualTo(DCSErrorCode.NOT_FOUND_BODY_FIELD.getStatus());
     }
 
 
     @Test
     void testingDataNotFoundExceptionScenario() {
-        ResponseEntity<ApiError> getChargeErrorResponse =
-                restTemplate.exchange(BASE_URI + NOT_IN_DB_ID, GET, null, ApiError.class);
+        ResponseEntity<DCSError> getChargeErrorResponse =
+                restTemplate.exchange(BASE_URI + NOT_IN_DB_ID, GET, null, DCSError.class);
 
         String anyVin = "anyVin";
-        ResponseEntity<ApiError> searchByVinErrorResponse =
-                restTemplate.exchange(SEARCH_CHARGE_DETAIL_URL + anyVin, GET, null, ApiError.class);
+        ResponseEntity<DCSError> searchByVinErrorResponse =
+                restTemplate.exchange(SEARCH_CHARGE_DETAIL_URL + anyVin, GET, null, DCSError.class);
 
-        ApiError chargeErrorResponseBody = getChargeErrorResponse.getBody();
+        DCSError chargeErrorResponseBody = getChargeErrorResponse.getBody();
 
         assertThat(chargeErrorResponseBody).isNotNull();
         assertThat(chargeErrorResponseBody.getDescription()).isNotEmpty();
-        assertThat(chargeErrorResponseBody.getDescription()).contains(NO_CHARGE_DETAIL_FOUND_FOR + NOT_IN_DB_ID);
-        assertThat(chargeErrorResponseBody.getCode()).isEqualTo(ApiErrorCode.DATA_NOT_FOUND.getCode());
-        assertThat(chargeErrorResponseBody.getMessage()).isEqualTo(ApiErrorCode.DATA_NOT_FOUND.name());
-        assertThat(getChargeErrorResponse.getStatusCode()).isEqualTo(ApiErrorCode.DATA_NOT_FOUND.getHttpStatus());
+        assertThat(chargeErrorResponseBody.getDescription()).contains(ERROR_MSG_NO_CHARGE_DETAIL_FOUND_FOR + NOT_IN_DB_ID);
+        assertThat(chargeErrorResponseBody.getCode()).isEqualTo(DCSErrorCode.DATA_NOT_FOUND.getCode());
+        assertThat(chargeErrorResponseBody.getMessage()).isEqualTo(DCSErrorCode.DATA_NOT_FOUND.name());
+        assertThat(getChargeErrorResponse.getStatusCode()).isEqualTo(DCSErrorCode.DATA_NOT_FOUND.getStatus());
 
-        ApiError searchErrorResponseBody = searchByVinErrorResponse.getBody();
+        DCSError searchErrorResponseBody = searchByVinErrorResponse.getBody();
 
         assertThat(searchErrorResponseBody).isNotNull();
         assertThat(searchErrorResponseBody.getDescription()).isNotEmpty();
-        assertThat(searchErrorResponseBody.getDescription()).contains(NO_CHARGE_DETAIL_FOUND_FOR + anyVin);
-        assertThat(searchErrorResponseBody.getCode()).isEqualTo(ApiErrorCode.DATA_NOT_FOUND.getCode());
-        assertThat(searchErrorResponseBody.getMessage()).isEqualTo(ApiErrorCode.DATA_NOT_FOUND.name());
-        assertThat(searchByVinErrorResponse.getStatusCode()).isEqualTo(ApiErrorCode.DATA_NOT_FOUND.getHttpStatus());
+        assertThat(searchErrorResponseBody.getDescription()).contains(ERROR_MSG_NO_CHARGE_DETAIL_FOUND_FOR + anyVin);
+        assertThat(searchErrorResponseBody.getCode()).isEqualTo(DCSErrorCode.DATA_NOT_FOUND.getCode());
+        assertThat(searchErrorResponseBody.getMessage()).isEqualTo(DCSErrorCode.DATA_NOT_FOUND.name());
+        assertThat(searchByVinErrorResponse.getStatusCode()).isEqualTo(DCSErrorCode.DATA_NOT_FOUND.getStatus());
     }
-
 }

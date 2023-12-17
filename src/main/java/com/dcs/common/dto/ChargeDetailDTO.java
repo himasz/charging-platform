@@ -3,7 +3,6 @@ package com.dcs.common.dto;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
-import java.time.Duration;
 
 @Getter
 @Setter
