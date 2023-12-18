@@ -21,8 +21,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
-import static com.dcs.common.Constants.ERROR_MSG_NO_CHARGE_DETAIL_FOUND_FOR;
-import static com.dcs.common.Constants.ERROR_MSG_START_TIME_S_END_TIME_S;
+import static com.dcs.common.DCSConstants.ERROR_MSG_NO_CHARGE_DETAIL_FOUND_FOR;
+import static com.dcs.common.DCSConstants.ERROR_MSG_START_TIME_S_END_TIME_S;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
@@ -40,7 +40,7 @@ class ChargeDetailControllerV1Test extends BaseTest {
 
     @Test
     @Order(1)
-    @Sql("classpath:/liquibase/data/remove-test-table-data.sql")
+    @Sql("classpath:/remove-test-table-data.sql")
     void whenAddNewChargeDetailAndGetItCorrectly() {
         ResponseEntity<Void> createResponse =
                 restTemplate.exchange(CREATE_CHARGE_DETAIL_URI, POST, new HttpEntity<>(CHARGE_DETAIL), Void.class);

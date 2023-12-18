@@ -14,7 +14,7 @@ import java.lang.annotation.Annotation;
 @Aspect
 @Component
 @Slf4j
-public class ChargeLogger {
+public class DCSLogger {
 
     @Pointcut("execution(* com.dcs.*.*(..))")
     public void controllersPoint() {

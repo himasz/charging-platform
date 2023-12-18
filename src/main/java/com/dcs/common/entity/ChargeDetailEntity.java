@@ -1,6 +1,6 @@
 package com.dcs.common.entity;
 
-import com.dcs.common.Constants;
+import com.dcs.common.DCSConstants;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Table(name = Constants.CHARGE_DETAIL_TBL)
+@Table(name = DCSConstants.CHARGE_DETAIL_TBL)
 public class ChargeDetailEntity {
     @Id
     private Long id;

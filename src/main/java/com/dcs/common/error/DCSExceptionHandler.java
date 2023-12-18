@@ -14,11 +14,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static com.dcs.common.Constants.*;
+import static com.dcs.common.DCSConstants.*;
 
 
 @ControllerAdvice
-public class ExceptionHandler extends ResponseEntityExceptionHandler {
+public class DCSExceptionHandler extends ResponseEntityExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(DCSException.class)
     public final ResponseEntity<DCSError> handleServiceException(DCSException exception) {

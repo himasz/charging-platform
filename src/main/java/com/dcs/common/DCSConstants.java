@@ -1,6 +1,6 @@
 package com.dcs.common;
 
-public class Constants {
+public class DCSConstants {
 
     public static final int MIN = 1;
     public static final int MAX = 100;

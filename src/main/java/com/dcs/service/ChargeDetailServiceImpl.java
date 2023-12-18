@@ -1,6 +1,6 @@
 package com.dcs.service;
 
-import com.dcs.common.Constants;
+import com.dcs.common.DCSConstants;
 import com.dcs.common.dto.ChargeDetailDTO;
 import com.dcs.common.entity.ChargeDetailEntity;
 import com.dcs.common.error.exception.DataNotFoundException;
@@ -16,8 +16,8 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static com.dcs.common.Constants.ERROR_MSG_NO_CHARGE_DETAIL_FOUND_FOR;
-import static com.dcs.common.Constants.ERROR_MSG_START_TIME_S_END_TIME_S;
+import static com.dcs.common.DCSConstants.ERROR_MSG_NO_CHARGE_DETAIL_FOUND_FOR;
+import static com.dcs.common.DCSConstants.ERROR_MSG_START_TIME_S_END_TIME_S;
 
 @Service
 @RequiredArgsConstructor
@@ -52,8 +52,8 @@ public class ChargeDetailServiceImpl implements ChargeDetailService {
     }
 
     private static PageRequest getPageRequest(Integer page, Integer pageSize) {
-        Sort sort = Sort.by(Sort.Direction.ASC, Constants.START_TIME)
-                .and(Sort.by(Sort.Direction.ASC, Constants.END_TIME));
+        Sort sort = Sort.by(Sort.Direction.ASC, DCSConstants.START_TIME)
+                .and(Sort.by(Sort.Direction.ASC, DCSConstants.END_TIME));
         return PageRequest.of(page, pageSize, sort);
     }
 

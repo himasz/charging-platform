@@ -22,7 +22,7 @@ public class BaseTest extends TestData {
     }
 
     @AfterAll
-    @Sql("classpath:/liquibase/data/remove-test-table-data.sql")
+    @Sql("classpath:/remove-test-table-data.sql")
     static void stopContainer() {
         postgresContainer.stop();
     }
