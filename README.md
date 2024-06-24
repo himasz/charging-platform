@@ -1,4 +1,4 @@
-** Spring boot example with postgres **
+# **Spring boot example with postgres**
 
 **Prerequisites to Run**
 - Run with JDK 17
